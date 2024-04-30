@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  taskmaster-api:
+    container_name: taskmaster-api
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      - PORT=8080
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - taskmaster-db
+    networks:
+      - taskmaster-connect
+
+  taskmaster-portal:
+    container_name: taskmaster-portal
+    build:
+      context: .
+      dockerfile: Dockerfile.portal
+    ports:
+      - "80:80"
+    depends_on:
+      - taskmaster-api
+    networks:
+      - taskmaster-connect
+
+  taskmaster-db:
+    container_name: taskmaster-db
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=taskmaster_db
+      - POSTGRES_USER=taskmaster_user
+      - POSTGRES_PASSWORD=taskmaster_pass@pass
+    tty: true
+    ports:
+      - "5432:5432"
+    volumes:
+      - taskmaster-db-data:/var/lib/postgresql/data
+    networks:
+      - taskmaster-connect
+
+networks:
+  taskmaster-connect:
+    driver: bridge
+
+volumes:
+  taskmaster-db-data:
+    driver: local
