@@ -25,6 +25,7 @@ export default function TaskModal() {
     status: "pending",
     description: "",
     priority: "",
+    startDate: "",
     dueDate: "",
     label: "",
   });
@@ -119,6 +120,22 @@ export default function TaskModal() {
               className="border-gray-300 border w-full p-2 rounded text-sm cursor-pointer focus:outline-none"
               placeholder="description"
               value={formData.description}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="startDate"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Start Date
+            </label>
+            <input
+              id="startDate"
+              type="date"
+              className="border-gray-300 border w-full p-2 rounded text-sm cursor-pointer focus:outline-none"
+              placeholder="start date"
+              value={formData.startDate}
               onChange={handleChange}
             />
           </div>

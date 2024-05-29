@@ -3,15 +3,12 @@ package broll.taskmaster.controller;
 import broll.taskmaster.entity.*;
 import broll.taskmaster.service.JwtService;
 import broll.taskmaster.service.UserService;
-import org.apache.coyote.BadRequestException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -83,7 +80,7 @@ public class UserController {
 
 	// Login user
 	@PostMapping("/auth/login")
-	public ResponseEntity<SuccessStructure> authenticate(@RequestBody @NotNull AuthRequest authRequest) {
+	public ResponseEntity<?> authenticate(@RequestBody @NotNull AuthRequest authRequest) {
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 		if (authentication.isAuthenticated()) {
 			AuthResponse auth = new AuthResponse();
@@ -104,7 +101,12 @@ public class UserController {
 			SuccessStructure response = new SuccessStructure(auth);
 			return ResponseEntity.ok().body(response);
 		} else {
-			throw new UsernameNotFoundException("Invalid credentials");
+			ErrorResponse.ErrorStructure response = new ErrorResponse.ErrorStructure();
+			response.setCode(401);
+			response.setError("Unauthenticated");
+			response.setMessage("Invalid credentials");
+
+			return ResponseEntity.status(401).body(response);
 		}
 	}
 }

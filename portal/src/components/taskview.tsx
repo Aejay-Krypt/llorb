@@ -165,8 +165,8 @@ export default function TaskView() {
   return (
     <div className="overflow-x-auto overflow-y-auto w-full p-6 bg-stone-200">
       <Toaster position="top-center" />
-      <div className="flex space-x-6 w-full h-screen">
-        <div className="w-1/2 mb-8">
+      <div className="flex flex-row space-x-6 w-full h-screen">
+        <div className="w-1/2 pb-8">
           <div className="flex flex-row mb-4">
             <div className="w-[90%]">
               <p className="text-black uppercase font-semibold">TASK DETAILS</p>
@@ -209,6 +209,22 @@ export default function TaskView() {
                 className="bg-transparent border-0 border-b-2 border-gray-300 w-full p-2 rounded text-sm cursor-pointer focus:outline-none"
                 placeholder="description"
                 value={formData.description}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="startDate"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Start Date
+              </label>
+              <input
+                id="startDate"
+                type="date"
+                className="bg-transparent border-0 border-b-2 border-gray-300 w-full p-2 rounded text-sm cursor-pointer focus:outline-none"
+                placeholder="start date"
+                value={formData.startDate}
                 onChange={handleChange}
               />
             </div>
@@ -347,7 +363,7 @@ export default function TaskView() {
           </div>
           <form onSubmit={handleAddComment}>
             <div className="absolute bottom-0 w-full pr-4 flex flex-row items-center">
-              <div className="w-[75%]">
+              <div className="w-[85%]">
                 <textarea
                   id="remark"
                   rows={2}
@@ -360,10 +376,10 @@ export default function TaskView() {
                   style={{ resize: "none" }}
                 ></textarea>
               </div>
-              <div className="w-[25%] px-2">
+              <div className="w-[15%] px-2">
                 <button
                   type="submit"
-                  className="rounded-md px-2 py-4 w-full bg-green-300 hover:bg-green-800 text-gray-600 hover:text-white"
+                  className="rounded-md px-2 py-4 w-full bg-green-300 hover:bg-green-800 text-gray-600 hover:text-white items-center justify-center flex"
                 >
                   <MdSend className="text-md cursor-pointer text-gray-400 hover:text-white" />
                 </button>

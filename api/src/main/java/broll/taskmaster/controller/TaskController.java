@@ -63,4 +63,12 @@ public class TaskController {
 		SuccessStructure response = new SuccessStructure(taskService.filterTask(criteria, parameter));
 		return ResponseEntity.ok().body(response);
 	}
+
+	// List Simultaneous Tasks
+	// List tasks
+	@GetMapping("/tasks/simultaneous")
+	public ResponseEntity<SuccessStructure> getAllSimultaneousTasks() {
+		SuccessStructure response = new SuccessStructure(taskService.getSimultaneousTasks());
+		return ResponseEntity.ok().body(response);
+	}
 }

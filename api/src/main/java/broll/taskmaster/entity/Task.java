@@ -26,6 +26,7 @@ public class Task {
 	@Enumerated(EnumType.STRING)
 	@Column(length = 50, nullable = false)
 	private PriorityType priority;
+	private LocalDate startDate;
 	private LocalDate dueDate;
 	private String label;
 	@Enumerated(EnumType.STRING)

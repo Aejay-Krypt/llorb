@@ -70,6 +70,17 @@ public class TaskService {
 		taskRepository.deleteById(id);
 	}
 
+	public Map<Integer, List<Task>> getSimultaneousTasks(){
+		List<Integer> months = taskRepository.getUniqueStartMonths();
+		Map<Integer, List<Task>> simultaneousTasks = new HashMap<>();
+
+		for (Integer month : months) {
+			List<Task> tasksForMonth = taskRepository.getTasksInMonth(month);
+			simultaneousTasks.put(month, tasksForMonth);
+		}
+		return simultaneousTasks;
+	}
+
 	// Search task
 	public List<Task> searchTask(String query) {
 		taskRepository.updateDueStatus();

@@ -5,6 +5,7 @@ import TaskModal from "../components/taskmodal";
 import Settings from "../components/settings";
 import TaskView from "../components/taskview";
 import DeleteModal from "../components/deletemodal";
+import TaskSchedule from "../components/taskschedule";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Sidebar activeRoute="" />
       <Routes>
         <Route path="settings" index element={<Settings />} />
+        <Route path="simultaneous" index element={<TaskSchedule />} />
         <Route path="task" index element={<TaskView />} />
         <Route path="/*" index element={<Board />} />
       </Routes>

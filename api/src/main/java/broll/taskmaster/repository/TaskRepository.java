@@ -2,6 +2,7 @@ package broll.taskmaster.repository;
 
 import broll.taskmaster.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,7 +25,16 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
     @Transactional
     @Query("UPDATE Task t SET t.status = 'overdue' WHERE t.dueDate IS NOT NULL AND t.dueDate < CURRENT_DATE")
     void updateDueStatus();
+
+    @Query("SELECT DISTINCT MONTH(t.startDate) FROM Task t")
+    List<Integer> getUniqueStartMonths();
+
+    @Query("FROM Task t " +
+            "WHERE MONTH(t.startDate) = :providedMonth " +
+            "AND MONTH(t.dueDate) = :providedMonth")
+    List<Task> getTasksInMonth(int providedMonth);
 }
+
 
 
 
