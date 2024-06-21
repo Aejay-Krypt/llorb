@@ -1,7 +1,16 @@
-FROM openjdk:11-jre-slim
+FROM gradle:7.6-jdk17 AS build
 
-ARG JAR_FILE=api/build/libs/*.jar
+WORKDIR /api
 
-COPY ${JAR_FILE} api.jar
+COPY api/build.gradle api/settings.gradle ./
+COPY api/src ./src
 
-ENTRYPOINT ["java","-jar","/api.jar"]
+RUN gradle build
+
+FROM openjdk:17-slim
+
+WORKDIR /api
+
+COPY --from=build /api/build/libs/taskmaster.jar .
+
+CMD ["java", "-jar", "taskmaster.jar"]

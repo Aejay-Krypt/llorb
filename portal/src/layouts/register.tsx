@@ -2,13 +2,10 @@ import axios from "axios";
 import { useState, FormEvent, ChangeEvent } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { apiBaseUrl } from "../data/Environment";
-import { getToken } from "../store/slices/authSlice";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
-  const token = useSelector(getToken);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<any>({
@@ -36,12 +33,7 @@ export default function Register() {
       setIsLoading(true);
       const response = await axios.post(
         `${apiBaseUrl}/auth/register`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        formData
       );
       if (response.status === 201) {
         toast.success("Account created");
